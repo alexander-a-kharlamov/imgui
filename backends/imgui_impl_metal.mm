@@ -208,9 +208,9 @@ void ImGui_ImplMetal_DestroyDeviceObjects()
 - (instancetype)init {
     if ((self = [super init]))
     {
-        _renderPipelineStateCache = [NSMutableDictionary dictionary];
-        _bufferCache = [NSMutableArray array];
-        _lastBufferCachePurge = [NSDate date].timeIntervalSince1970;
+        _renderPipelineStateCache = [NSMutableDictionary new];
+        _bufferCache = [NSMutableArray new];
+        _lastBufferCachePurge = [NSDate new].timeIntervalSince1970;
     }
     return self;
 }
@@ -537,12 +537,12 @@ void ImGui_ImplMetal_DestroyDeviceObjects()
         indexBufferOffset += (size_t)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx);
     }
 
-    __weak id weakSelf = self;
+    id weakSelf = self;
     [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer>)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf enqueueReusableBuffer:vertexBuffer];
-            [weakSelf enqueueReusableBuffer:indexBuffer];
+          [weakSelf enqueueReusableBuffer:vertexBuffer];
+          [weakSelf enqueueReusableBuffer:indexBuffer];
         });
     }];
 }
